@@ -11,13 +11,17 @@ app.post('/repos/import', function (request, response) {
   }).on('end', function() {
     response.writeHead(201);
     body = JSON.parse(body);
-    var newEntry = new db({repos: body});
-    newEntry.save((err) => {
+    var newEntry = new db({repos: body})
+    db.find({ repos: {$in: [body]}}, function (err, repos) {
       if (err) return console.log(err);
-    });
-    // db.remove({repos: 'test'}, (err) => {
-    //   if (err) return console.log(err);
-    // });
+      if (repos.length === 0) {
+        newEntry.save((err) => {
+          if (err) return console.log(err);
+        });
+      } else {
+        console.log('already in repo');
+      }
+    })
     response.end();
   }).on('error', function() {
     response.end();
@@ -36,4 +40,3 @@ var port = 1128;
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
 });
-
