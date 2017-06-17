@@ -1,15 +1,8 @@
-// var db = require('../database/index;')
 var express = require('express');
 var app = express();
-
-var staticData = 'gbaik';
+var db = require('../database/index')
 
 app.use(express.static(__dirname + '/../client/dist'));
-
-app.get('https://api.github.com/users/gbaik/repos', function(request, response) {
-  response.writeHead(200, { 'Content-Type': 'text/plain' });
-  response.end('hello');
-});
 
 app.post('/repos/import', function (request, response) {
   var body = '';
@@ -18,11 +11,20 @@ app.post('/repos/import', function (request, response) {
   }).on('end', function() {
     response.writeHead(201);
     body = JSON.parse(body);
+    var newEntry = new db({repos: body});
+    newEntry.save((err) => {
+      if (err) return console.log(err);
+    });
+    // db.remove({repos: 'test'}, (err) => {
+    //   if (err) return console.log(err);
+    // });
     response.end();
   }).on('error', function() {
     response.end();
   })
 });
+
+/*TODO: GET / BROKEN, FIX LATER*/
 
 // app.get('/repos', function (request, response) {
 //   console.log('a')

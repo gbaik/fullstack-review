@@ -10,21 +10,7 @@ class App extends React.Component {
     this.state = { 
       repos: []
     };
-    // this.staticData = [];
-    // this.search = this.search.bind(this);
   }
-
-  // search (data) {
-  //   // this.handleAddRepo(data);
-  //   //   , ((item) => {
-  //   //   // this.staticData.push(item);
-  //   //   console.log(item);
-  //   // }));
-
-  //   this.github(() => {
-  //     console.log(item);
-  //   })
-  // }
 
   getRepo(data) {
 
@@ -32,9 +18,8 @@ class App extends React.Component {
 
   receiveNewUser(data) {
     this.getUserRepo(data, (item) => {
-      // this.handleAddRepo(item);
-      console.log(item);
       this.setState({repos: item});
+      this.handleAddRepo(item);
     })
   }
 
@@ -56,16 +41,13 @@ class App extends React.Component {
   }
 
   handleAddRepo (data) {
-    // console.log(data);
-    var username = {"user": data};
     $.ajax({
       url: '/repos/import',
       type: 'POST',
-      data: JSON.stringify(username),
+      data: JSON.stringify(data),
       contentType: 'application/JSON',
       success: function() {
         console.log('SUCCESSFUL POST');
-        callback()
       },
       error: function() {
         console.log('POST error');
