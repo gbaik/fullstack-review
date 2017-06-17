@@ -7,5 +7,10 @@ var repoSchema = mongoose.Schema({
 
 var Repo = mongoose.model('Repo', repoSchema);
 
+Repo.find(function (err, users) {
+  if (err) return console.log(err);
+  console.log(users);
+});
+
 module.exports = Repo;
 

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import Token from './github_access_token'
 
 class App extends React.Component {
   constructor(props) {
@@ -24,10 +25,8 @@ class App extends React.Component {
   }
 
   getUserRepo(data, callback) {
-    var url = 'https://api.github.com/users/' + data +'/repos';
-
     $.ajax({
-      url: url,
+      url: 'https://api.github.com/users/'+ data + '/repos?access_token=' + Token,
       type: 'GET',
       contentType: 'application/JSON',
       success: function(data) {

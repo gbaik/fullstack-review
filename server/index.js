@@ -12,7 +12,7 @@ app.post('/repos/import', function (request, response) {
     response.writeHead(201);
     body = JSON.parse(body);
     var newEntry = new db({repos: body})
-    db.find({ repos: {$in: [body]}}, function (err, repos) {
+    db.find({ repos: { $exists: true, $nin: [body]}}, function (err, repos) {
       if (err) return console.log(err);
       if (repos.length === 0) {
         newEntry.save((err) => {

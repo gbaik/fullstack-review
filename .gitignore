@@ -1,3 +1,4 @@
 node_modules
 client/dist/bundle.js
 database/data/db
+client/src/github_access_token.js
